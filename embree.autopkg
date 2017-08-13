@@ -1,0 +1,64 @@
+
+configurations {
+	Toolset {
+		key : "PlatformToolset";
+        choices: { v141, v140 };
+    };
+}
+
+nuget {
+
+   nuspec {
+      id = embree;
+      version : 2.16.4.0;
+      title:  Embree;
+      authors: { Intel Corporation };
+      licenseUrl: "https://www.apache.org/licenses/LICENSE-2.0";
+      projectUrl: "https://embree.github.io/";
+      requireLicenseAcceptance:false;
+      summary: "Embree is a collection of high-performance ray tracing kernels, developed at Intel.";
+	    copyright: Intel Corporation;
+      description: "Intel Embree 2.16.4 for Visual Studio 2015 (v140) & Visual Studio 2017 (v141)";
+      tags: { native };
+   };
+ 
+    dependencies {
+        packages : {
+            tbb_oss.redist/9.107.0
+        };
+    };
+
+   files {
+
+      i1: {
+		    #destination = ${d_include}\embree2;
+        "embree\include\embree2\*.h"
+      };
+
+      [x86,release] {
+        lib: { "target_x86\release\embree.lib" };
+        bin: { "target_x86\release\embree.dll" };
+      };
+ 
+      [x86,debug] {
+        lib: { "target_x86\debug\embree.lib" };
+        bin: { "target_x86\debug\embree.dll" };
+        symbols: { "target_x86\debug\embree.pdb" };
+      };
+
+      [x64,release] {
+        lib: { "target_x64\release\embree.lib" };
+        bin: { "target_x64\release\embree.dll" };
+      };
+ 
+      [x64,debug] {
+        lib: { "target_x64\debug\embree.lib" };
+        bin: { "target_x64\debug\embree.dll" };
+        symbols: { "target_x64\debug\embree.pdb" };
+      };
+   };
+
+   targets {
+	  Defines += HAS_EMBREE;
+   };
+}
